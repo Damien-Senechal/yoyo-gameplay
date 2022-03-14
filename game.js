@@ -37,6 +37,7 @@ function preload() {
   // Load player animations from the player spritesheet and atlas JSON
   this.load.atlas('player', 'assets/images/kenney_player.png',
     'assets/images/kenney_player_atlas.json');
+  this.load.image('red', 'assets/images/red.png');
 }
 
 function create() {
@@ -64,6 +65,9 @@ function create() {
   this.player.setBounce(0.1); // our player will bounce from items
   this.player.setCollideWorldBounds(true); // don't go out of the map
   this.physics.add.collider(this.player, platforms);
+
+  this.target = this.physics.add.sprite(50, 300, 'red');
+  this.target.physics.allowGravity(false);
 
   // Create the walking animation using the last 2 frames of
   // the atlas' first row
@@ -115,7 +119,9 @@ function create() {
   });*/
 
   // Add collision between the player and the spikes
-  this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
+  //this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
+
+
 }
 
 function update() {
@@ -154,29 +160,11 @@ function update() {
     // otherwise, make them face the other side
     this.player.setFlipX(true);
   }
+
+  listener(this.target, game.input.mousePointer)
 }
 
-/**
- * playerHit resets the player's state when it dies from colliding with a spike
- * @param {*} player - player sprite
- * @param {*} spike - spike player collided with
- */
-function playerHit(player, spike) {
-  // Set velocity back to 0
-  player.setVelocity(0, 0);
-  // Put the player back in its original position
-  player.setX(50);
-  player.setY(300);
-  // Use the default `idle` animation
-  player.play('idle', true);
-  // Set the visibility to 0 i.e. hide the player
-  player.setAlpha(0);
-  // Add a tween that 'blinks' until the player is gradually visible
-  let tw = this.tweens.add({
-    targets: player,
-    alpha: 1,
-    duration: 100,
-    ease: 'Linear',
-    repeat: 5,
-  });
+function listener(sprite, pointer) {
+  sprite.x = pointer.x;
+  sprite.y = pointer.y;
 }
