@@ -35,7 +35,6 @@ class Scene extends Phaser.Scene {
   }
 
   create() {
-
     // redimentionnement du monde avec les dimensions calculées via tiled
     this.physics.world.setBounds(0, 0, 1080, 360);
     //  ajout du champs de la caméra de taille identique à celle du monde
@@ -44,7 +43,7 @@ class Scene extends Phaser.Scene {
     this.addTileMap();
 
     //Ajout du joueur et de ses parametres
-    this.player = this.physics.add.sprite(200, 100, "player");
+    this.player = this.physics.add.sprite(200, 100, "player")
     this.player.flipX = true;
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
@@ -187,11 +186,11 @@ class Scene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     });
-    this.anims.create({
+    this.idle = this.anims.create({
       key: 'idle',
       frames: this.anims.generateFrameNumbers('player', {start: 0, end: 0}),
       frameRate: 10,
-      repeat: -1
+      repeat: -1,
     });
   }
 
