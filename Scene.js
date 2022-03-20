@@ -64,6 +64,8 @@ class Scene extends Phaser.Scene {
     this.input.on('pointerdown', function (pointer) {
       if(this.yoyo.launch === false){
 
+        //this.drawLine()
+
         this.yoyo.launch = true;
         this.player.setVelocityX(0);
         this.player.setVelocityY(0);
@@ -80,12 +82,32 @@ class Scene extends Phaser.Scene {
       }
     }, this);
 
-    this.graphics = this.add.graphics();
-
-    this.graphics.lineStyle(3, 0x000000, 1);
-
-
   }
+
+  /*drawLine(){
+    this.graphics = this.add.graphics({ lineStyle: { width: 4, color: 0x000000 } });
+    this.line = new Phaser.Geom.Line(this.player.x, this.player.y, this.yoyo.x, this.yoyo.y);
+    this.line.x2 = this.yoyo.x;
+    this.line.y2 = this.yoyo.y;
+    this.redraw();
+  }
+
+  redraw ()
+  {
+    this.graphics.clear();
+
+    var points = Phaser.Geom.Line.BresenhamPoints(this.line, 30);
+
+    for(var i = 0; i < points.length; i++)
+    {
+
+      this.graphics.fillPointShape(points[i], 30);
+
+    }
+
+    this.graphics.strokeLineShape(this.line);
+
+  }*/
 
   inputManager() {
 
@@ -145,17 +167,17 @@ class Scene extends Phaser.Scene {
       this.yoyo.y = this.player.y;
     }
     else{
+      //this.drawLine()
       if(this.yoyoTween.progress === 1){
+        //this.redraw()
         this.yoyo.launch = false;
         this.player.body.setAllowGravity(true)
         this.player.body.setImmovable(false)
       }
     }
 
-    this.graphics.lineBetween(this.player.x, this.player.y, this.yoyo.x, this.yoyo.y);
-
-    console.log(this.input.activePointer.worldX)
-    console.log(this.input.activePointer.worldY)
+    //console.log(this.input.activePointer.worldX)
+    //console.log(this.input.activePointer.worldY)
   }
 }
 
