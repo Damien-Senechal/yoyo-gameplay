@@ -80,6 +80,11 @@ class Scene extends Phaser.Scene {
       }
     }, this);
 
+    this.graphics = this.add.graphics();
+
+    this.graphics.lineStyle(3, 0x000000, 1);
+
+
   }
 
   inputManager() {
@@ -146,6 +151,8 @@ class Scene extends Phaser.Scene {
         this.player.body.setImmovable(false)
       }
     }
+
+    this.graphics.lineBetween(this.player.x, this.player.y, this.yoyo.x, this.yoyo.y);
 
     console.log(this.input.activePointer.worldX)
     console.log(this.input.activePointer.worldY)
