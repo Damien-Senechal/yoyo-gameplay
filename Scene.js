@@ -59,13 +59,14 @@ class Scene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.platforms);
 
     this.inputManager()
+
     this.animManager()
 
     this.input.on('pointerdown', function (pointer) {
-      if(this.yoyo.launch === false){
+      if(this.yoyo.launch === false && Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.worldX, pointer.worldY) <= 200){
 
         //this.drawLine()
-
+        this.input.keyboard.enabled = false;
         this.yoyo.launch = true;
         this.player.setVelocityX(0);
         this.player.setVelocityY(0);
@@ -75,7 +76,7 @@ class Scene extends Phaser.Scene {
           targets: this.yoyo,
           x: pointer.worldX,
           y: pointer.worldY,
-          duration: 500,
+          duration: 300,
           ease: 'Power2',
           yoyo: true,
         });
@@ -112,18 +113,18 @@ class Scene extends Phaser.Scene {
   inputManager() {
 
     this.input.keyboard.on('keydown-D', function () {
-      this.player.setVelocityX(160);
-      this.player.anims.play('run', true);
+        this.player.setVelocityX(160);
+        this.player.anims.play('run', true);
     }, this);
     this.input.keyboard.on('keydown-Q', function () {
-      this.player.setVelocityX(-160);
-      this.player.anims.play('run', true);
+        this.player.setVelocityX(-160);
+        this.player.anims.play('run', true);
     }, this);
     this.input.keyboard.on('keydown-SPACE', function () {
-      if (this.player.body.blocked.down) {
-        this.player.setVelocityY(-300);
-        this.player.anims.play('jump', true);
-      }
+        if (this.player.body.blocked.down) {
+          this.player.setVelocityY(-300);
+          this.player.anims.play('jump', true);
+        }
     }, this);
 
     this.input.keyboard.on('keyup-D', function () {
@@ -167,8 +168,12 @@ class Scene extends Phaser.Scene {
       this.yoyo.y = this.player.y;
     }
     else{
+      this.player.body.velocity.x = 0;
+      this.player.body.velocity.y = 0;
+
       //this.drawLine()
       if(this.yoyoTween.progress === 1){
+        this.input.keyboard.enabled = true;
         //this.redraw()
         this.yoyo.launch = false;
         this.player.body.setAllowGravity(true)
@@ -176,6 +181,7 @@ class Scene extends Phaser.Scene {
       }
     }
 
+    console.log(this.yoyo.launch)
     //console.log(this.input.activePointer.worldX)
     //console.log(this.input.activePointer.worldY)
   }
